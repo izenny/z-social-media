@@ -9,8 +9,13 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { removeData } from "../../Redux/Userredux";
 const Navbar = () => {
-  const Logout = () => {};
+  const Ldispatch = useDispatch();
+  const Logout = () => {
+    Ldispatch(removeData());
+  };
   return (
     <div className="nav-p">
       <div className="nav-c">
@@ -22,28 +27,28 @@ const Navbar = () => {
         </div>
 
         <div className="icons-nav">
-          <NavLink to={"/"}>
+          <NavLink to={"/home"}>
             <div className="icons-fa">
               <FaHome className="icon" />
             </div>
           </NavLink>
-          <NavLink to={"profile"}>
+          <NavLink to={"/profile"}>
             <div className="icons-fa">
               <FaUser className="icon" />
             </div>
           </NavLink>
-          <NavLink to={"messages"}>
+          <NavLink to={"/messages"}>
             <div className="icons-fa">
               <FaEnvelope className="icon" />
             </div>
           </NavLink>
-          <NavLink to={"notifications"}>
-            {" "}
+          <NavLink to={"/notifications"}>
+            
             <div className="icons-fa">
               <FaBell className="icon" />
             </div>
           </NavLink>
-          <NavLink to={"settings"}>
+          <NavLink to={"/settings"}>
             <div className="icons-fa">
               <FaCog className="icon" />
             </div>

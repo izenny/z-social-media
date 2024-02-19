@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Makepost.css";
-// import { MakeNewPostData } from "../../Api/PostApi";
-// import { useSelector } from "react-redux";
+import { MakeNewPostData } from "../../Api/PostApi";
+import { useSelector } from "react-redux";
 const MyVerticallyCenteredModal = (props) => {
-  const { onHide, show } = props; 
+  const { onHide, show } = props; // Destructure onHide and show from props
   const [postText, setPostText] = useState("");
   const [postImage, setPostImage] = useState(null);
 
@@ -18,23 +18,23 @@ const MyVerticallyCenteredModal = (props) => {
     const file = e.target.files[0];
     setPostImage(file);
   };
-//   const userData = useSelector((state) => state.userDetails.userInfo[0]);
+  const userData = useSelector((state) => state.userDetails.userInfo[0]);
   const handleSubmit = async () => {
     // Handle form submission here
-    // if (userData) {
-    //   var id = userData._id;
+    if (userData) {
+      var id = userData._id;
       // console.log(id);
-    // }
+    }
     try {
-    //   console.log(id);
-    //   const newPostData = {
-    //     author: id,
-    //     content: postText,
-    //     image: postImage,
-    //   };
-    //   const createdPost = await MakeNewPostData(id, newPostData);
-    //   console.log("fdgjddjjhmh", newPostData);
-    //   console.log("Created post:", createdPost);
+      console.log(id);
+      const newPostData = {
+        author: id,
+        content: postText,
+        image: postImage,
+      };
+      const createdPost = await MakeNewPostData(id, newPostData);
+      console.log("fdgjddjjhmh", newPostData);
+      console.log("Created post:", createdPost);
       onHide(); // Close the modal after successful creation
     } catch (error) {
       // Handle error

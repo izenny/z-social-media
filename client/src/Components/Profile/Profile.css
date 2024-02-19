@@ -1,7 +1,9 @@
 .profile-p{
     height: 100vh;
     width: 100%;
+    
 }
+
 .profile-c{
 display: flex;
   flex-direction: column;
@@ -42,7 +44,7 @@ display: flex;
   
     font-size: 1.4rem;
     justify-content: space-evenly;
-    background-color: aqua;
+    
     text-align: center;
   }
   .user-friends, 

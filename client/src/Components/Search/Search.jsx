@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import "./Search.css";
-// import { SearchApi } from "../../Api/UsersApi";
+import { SearchApi } from "../../Api/UsersApi";
 import { Modal, Button } from "react-bootstrap";
 // import Users from "../Users/Users";
 const Search = () => {
@@ -13,10 +13,10 @@ const Search = () => {
 
   const submitSearch = async () => {
     try {
-    //   const searchResult = await SearchApi(searchText);
-    //   console.log(searchText);
-    //   setSearchResults(searchResult);
-    //   console.log("search result in jsx", searchResult);
+      const searchResult = await SearchApi(searchText);
+      console.log(searchText);
+      setSearchResults(searchResult);
+      console.log("search result in jsx", searchResult);
       setShowModal(true);
     } catch (err) {
       console.log("search errorr in jsx");
@@ -25,7 +25,7 @@ const Search = () => {
 
   return (
     <div className="search-p">
-      <div className="search-c">
+      <div className="search">
         <div className="search-input-div">
           <input
             type="text"
