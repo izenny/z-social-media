@@ -1,0 +1,28 @@
+.notification-p {
+    /* display: flex; */
+    width: 100%;
+  }
+  .notification {
+    display: flex;
+    flex-direction: column;
+    /* border: 1px solid blueviolet; */
+    background-color: rgba(192, 97, 33, 0.527);
+    /* margin-bottom: .2rem; */
+    padding: 1rem;
+    color: rgb(0, 0, 0);
+    min-height: 5.5rem;
+    width: 100%;
+  }
+  .noti-delete-icon {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+  }
+  .noti-delete-icon:hover {
+    color: red;
+  
+    transition: all 0.3s ease-in;
+    cursor: pointer;
+  }
+  

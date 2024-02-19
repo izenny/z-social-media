@@ -1,0 +1,16 @@
+.newpost {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    /* width: fit-content; */
+    /* background-color: rgb(50, 85, 180); */
+  }
+  .make-post-bn {
+    background-color: rgb(50, 85, 180);
+    /* width: 50%; */
+  }
+  .make-post-bn:hover {
+    background-color: rgb(22, 73, 214);
+  }
+  

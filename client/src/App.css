@@ -1,0 +1,64 @@
+.App {
+  display: flex;
+}
+.left{
+  display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 100vh;
+    
+    padding: 2rem;
+}
+.middle{
+  display: flex;
+  /* padding: 1.2rem; */
+  flex-direction: column;
+  width: 65vw;
+}
+.middle-top{
+  display: flex;
+  align-items: center;
+}
+.search{
+  flex: 1;
+}
+.makepost{
+  padding-right: 1.5rem;
+}
+.main {
+  background-color: #e6e6e67c;
+  /* width: 71vw; */
+  height: 82vh;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  box-shadow: 6px 6px 24px #a1a1a1, -6px -6px 12px #ffffff;
+  overflow-y: auto;
+}
+.right {
+  /* height: 76vh; */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100vh;
+  /* width: 100%; */
+  flex: 1;
+  /* background-color: aqua; */
+  /* position: fixed; */
+  padding: 2rem;
+}
+.right-p {
+  height: 100%;
+
+  flex: 1;
+  display: flex;
+  border-radius: 10px;
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-content: center; */
+  overflow-y: auto;
+
+  /* justify-content: space-around; */
+  background: linear-gradient(#e6e6e6, #ffffff);
+  box-shadow: 6px 6px 24px #a1a1a1, -6px -6px 12px #ffffff;
+}
