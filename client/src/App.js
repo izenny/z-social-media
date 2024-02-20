@@ -43,7 +43,7 @@ function App() {
             <div className="left">
               <Navbar />
             </div>
-            <div className="middle"> 
+            <div className="middle">
               <div className="middle-top">
                 <div className="search">
                   <Search />
@@ -56,10 +56,11 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Post friendsId={fuserIds}/>} />
                   <Route path="/profile" element={<Profile userId ={loggedUserId} />} >
-                    <Route path="*" element={<Post />} />
+                    <Route path="/profile/post" element={<Post />} />
+                    <Route path="/profile/friends" element={<Home/>} />
                   </Route>
-                  <Route path="/messages" element={<Chat />} />
-                  {/* <Route path="/notifications" element={<Notifications />} /> */}
+                  <Route path="/chat" element={<Chat />} />
+
                 </Routes>
               </div>
             </div>

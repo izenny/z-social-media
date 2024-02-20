@@ -1,0 +1,74 @@
+.friends-p {
+  width: 100%;
+}
+.friends-c {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.friend {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 16rem;
+  /* height: 3.5rem; */
+  margin: 1rem;
+  border-radius: .5rem;
+  background-color: rgb(255, 255, 255);
+}
+.friend-profile-pic {
+  width: 50px;
+  height: 50px;
+  /* border-radius: 50%; */
+  margin-right: 5px;
+  /* margin-left: 5px; */
+  border-radius: .5rem 0 0;
+  overflow: hidden;
+  /* background-color: aqua; */
+}
+.friend-profile-pic img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.friend-icons{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: rgba(0, 0, 255, 0.701);
+    /* background-color: aliceblue; */
+    font-size: 20px;
+    height: 100%;
+    width: 5rem;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.friend-name{
+  width: 5rem;
+  /* height: 100%; */
+  
+  overflow-x: hidden;
+  text-align: center;
+}
+/* .friend-name h5{
+  font-size: 12px;
+} */
+.friend-message,
+ .friend-remove{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2rem;
+    width: 2rem;
+    /* background-color: aqua; */
+    cursor: pointer;
+ }
+ .friend-message:hover{
+    color: blue;
+    background-color: rgba(240, 248, 255, 0.568);
+ }
+ .friend-remove:hover{
+    color: blue;
+    background-color: rgba(240, 248, 255, 0.568);
+
+ }

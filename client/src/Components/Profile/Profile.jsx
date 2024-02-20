@@ -6,6 +6,7 @@ import { Link, Route, Routes } from 'react-router-dom';
 import Post from '../Post/Post';
 import Home from '../Home/Home';
 import { ProfileData } from '../../Api/ProfileApi';
+import Friends from '../Friends/Friends';
 
 const Profile = ({userId}) => {
   const [profileInfo, setProfileInfo] = useState(null);
@@ -38,7 +39,7 @@ const Profile = ({userId}) => {
             <h2>{profileInfo.firstname}</h2>
         </div>
         <div className="user-profile-icons">
-            <Link to={'/profile/friend'} style={{ textDecoration: 'none', color: 'inherit' ,cursor:'pointer'}}><div className="user-friends">
+            <Link to={'/profile/friends'} style={{ textDecoration: 'none', color: 'inherit' ,cursor:'pointer'}}><div className="user-friends">
                 <FaUserFriends className='profile-icon'/>
                 <span className='profile-count'>{profileInfo.friends.length} friends</span>
             </div></Link>
@@ -50,7 +51,7 @@ const Profile = ({userId}) => {
         <div className="user-profile">
           <Routes>
             <Route path='post' element={<Post friendsId={[userId]}/>} />
-            <Route path='friend' element={<Home />} />
+            <Route path='friends' element={<Friends friends={profileInfo.friends} friendrequests={profileInfo.friendrequest} />} />
           </Routes>
         </div>
         </>):(<h2>Loading profile....</h2>)}
