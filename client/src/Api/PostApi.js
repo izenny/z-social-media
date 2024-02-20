@@ -1,9 +1,9 @@
-import axios from "axios";
+
 import { publicRequest } from "../Request/RequestMethod";
 //new post
 export const MakeNewPostData = async (id, newPostData) => {
   try {
-    // const newPost =  await axios.post(`http://localhost:5001/post/`)
+    
     const newPost = await publicRequest.post(
       `post/${id}`,
       newPostData

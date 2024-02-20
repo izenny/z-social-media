@@ -27,7 +27,7 @@ const Navbar = () => {
         </div>
 
         <div className="icons-nav">
-          <NavLink to={"/home"}>
+          <NavLink to={"/"}>
             <div className="icons-fa">
               <FaHome className="icon" />
             </div>
