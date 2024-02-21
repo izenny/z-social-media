@@ -21,3 +21,11 @@ export const NewChatApi = async (ids)=>{
         console.log('error in new chat');
     }
 }
+export const ChatMsgs = async (room)=>{
+    try{
+        const messages = await publicRequest.get(`chat/messages/${room}`)
+        console.log('messages in api',messages.data);
+    }catch(err){
+        console.log('err in messages api',err);
+    }
+}

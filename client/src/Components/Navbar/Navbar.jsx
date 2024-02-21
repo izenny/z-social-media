@@ -43,7 +43,6 @@ const Navbar = () => {
             </div>
           </NavLink>
           <NavLink to={"/notifications"}>
-            
             <div className="icons-fa">
               <FaBell className="icon" />
             </div>
@@ -53,11 +52,13 @@ const Navbar = () => {
               <FaCog className="icon" />
             </div>
           </NavLink>
-          
+
+          <NavLink to={"/"}>
+            {" "}
             <div className="icons-fa" onClick={Logout}>
               <FaSignOutAlt className="icon" />
             </div>
-          
+          </NavLink>
         </div>
       </div>
     </div>

@@ -31,7 +31,7 @@ const Messages = () => {
           var receiver = msg.participants.find((p) => p._id !== userId);
 
           return (
-            <NavLink to={`/chat/${msg.room}`}>
+            <NavLink to={`/messages/${msg.room}`}  style={{ textDecoration: 'none', color: 'inherit' ,cursor:'pointer'}}>
               <div className="messages-c-msg" key={msg.id}>
                 <div className="message-user-pic">
                   <img
@@ -46,7 +46,9 @@ const Messages = () => {
                       {receiver.firstname} {receiver.lastname}
                     </p>
                     <p className="message-text-msg">
-                      {msg.lastMessage ? msg.lastMessage : "start texting"}
+                      {msg.lastMessage
+                        ? msg.lastMessage.content
+                        : "start texting"}
                     </p>
                   </div>
                   <div className="message-time-msg">

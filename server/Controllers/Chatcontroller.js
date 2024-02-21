@@ -1,30 +1,118 @@
 const Chat = require("../Modals/Chatschema");
 const uuid = require("uuid")
-
-
-exports.incomingMessage = async (req, res) => {
+const User = require('../Modals/Userschema')
+exports.joinRoom = async (socket, room)=>{
   try {
-    const { roomId, senderId, content } = req.body;
+    socket.join(room);
+    const chat = await Chat.findOne({ room: room });
+    if (!chat) {
+      console.log('Chat not found for room:', room);
+      return [];
+    }
+    const participantIds = chat.participants;
+    const participants = await User.find({ _id: { $in: participantIds } }, 'firstname lastname');
+    const participantData = participants.map(participant => ({
+      id: participant._id,
+      firstname: participant.firstname,
+      lastname: participant.lastname,
+    }));
+    console.log('Emitting participants:', participantData);
+    socket.emit('participants', participantData);
+
+    const messages = chat.messages;
+    console.log('Emitting old messages:', messages);
+    socket.emit('oldMessages', messages);
+  } catch (err) {
+    console.log('Error joining room:', err);
+    return [];
+  }
+}
+
+
+// exports.joinRoom = async (socket, room)=>{
+//   try {
+//     socket.join(room);
+//     const chat = await Chat.findOne({ room: room });
+//     if (!chat) {
+//       console.log('Chat not found for room:', room);
+//       return [];
+//     }
+//     const participantIds = chat.participants;
+//     const participants = await User.find({ _id: { $in: participantIds } }, 'firstname lastname');
+//     const participantData = participants.map(participant => ({
+//       id: participant._id,
+//       firstname: participant.firstname,
+//       lastname: participant.lastname,
+//     }));
+//     console.log('Emitting participants:', participantData);
+//     socket.emit('participants', participantData);
+    
+//   } catch (err) {
+//     console.log('Error joining room:', err);
+//     return [];
+//   }
+// }
+
+
+
+// exports.sendMessage = async (io, socket, data) => {
+//   try {
+//     const { roomId, senderId, content } = data;
+//     const chat = await Chat.findOne({ room: roomId });
+//     if (!chat) {
+//       const newChat = new Chat({
+//         room: roomId,
+//         messages: [{ sender: senderId, content }],
+//       });
+//       await newChat.save();
+//       io.to(roomId).emit("chat message", { sender: senderId, content });
+//     } else {
+//       chat.messages.push({ sender: senderId, content });
+//       await chat.save();
+//       io.to(roomId).emit("chat message", { sender: senderId, content });
+//     }
+//   } catch (err) {
+//     console.log("err creating message", err);
+//   }
+// };
+exports.sendMessage = async (io, socket, data) => {
+  try {
+    const { roomId, senderId, content } = data;
     const chat = await Chat.findOne({ room: roomId });
     if (!chat) {
-      const roomId = uuid.v4()
-      console.log('room id',roomId)
-      const newChat = new Chat({
-        room: roomId,
-        message: [{ sender: senderId, content }],
-      });
-      await newChat.save();
-      io.to(roomId).emit("chat message", { sender: senderId, content });
-    } else {
-      chat.message.push({ sender: senderId, content });
-      await chat.save();
-      io.to(roomId).emit("chat message", { sender: senderId, content });
+      console.log('Chat not found for room:', roomId);
+      return;
     }
-    res.status(201).json({ message: "message send successfully" });
+    const newMessage = {
+      sender: senderId,
+      content: content,
+    };
+    chat.messages.push(newMessage);
+    await chat.save();
+
+    console.log('Emitting chat message:', newMessage);
+    io.to(roomId).emit('chat message', newMessage);
   } catch (err) {
-    console.log("err creating message", err);
-    res.status(500).json({ message: "Internal Server Error" });
+    console.log('Error sending message:', err);
   }
+};
+exports.fetchMessages = async (socket, room) => {
+  try {
+    const chat = await Chat.findOne({ room: room });
+    if (!chat) {
+      console.log('Chat not found for room:', room);
+      return [];
+    }
+    const messages = chat.messages;
+    console.log('Fetched messages:', messages);
+    socket.emit('oldMessages', messages);
+  } catch (err) {
+    console.log('Error fetching messages:', err);
+    return [];
+  }
+};
+exports.disconnect = (socket) => {
+  console.log("User disconnected : ", socket.id);
 };
 // create new chat
 

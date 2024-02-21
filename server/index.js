@@ -8,6 +8,7 @@ const userRoutes = require("./Router/Userrouter");
 const postRoutes = require("./Router/Postrouter");
 const notificationRoutes = require("./Router/Notificationrouter");
 const chatRoutes = require("./Router/Chatrouter");
+const ChatController = require('./Controllers/Chatcontroller')
 dotenv.config();
 
 const app = express();
@@ -28,17 +29,25 @@ db.once("open", () => {
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:3000", // Replace with your client's origin
+    origin: "http://localhost:3000",
     methods: ["GET", "POST", "DELETE", "PUT"],
   },
 });
 
 io.on("connection", (socket) => {
-  console.log("User connected", socket.id);
+  console.log("User connected id", socket.id);
+  socket.on('join room', (room)=>{
+    console.log('room', room);
+    ChatController.joinRoom(socket, room)
+    
+  })
+  
+  socket.on('chat message', (data)=>{
+    console.log('message received ', data);
+    ChatController.sendMessage(io, socket, data);
+  })
 
-  socket.on("join room", (room) => {
-    socket.join(room);
-  });
+  
 
   socket.on("disconnect", () => {
     console.log("User disconnected : ", socket.id);

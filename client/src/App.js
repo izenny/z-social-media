@@ -59,7 +59,7 @@ function App() {
                     <Route path="/profile/post" element={<Post />} />
                     <Route path="/profile/friends" element={<Home/>} />
                   </Route>
-                  <Route path="/chat" element={<Chat />} />
+                  <Route path="/messages/:room" element={<Chat userId ={loggedUserId}/>} />
 
                 </Routes>
               </div>
@@ -68,7 +68,7 @@ function App() {
               <div className="right-p">
                 <Routes>
                   <Route path="/notifications" element={<Notifications />} />
-                  <Route path="/messages" element={<Messages />} />
+                  <Route path="/messages/*" element={<Messages />} />
                 </Routes>
               </div>
             </div>
