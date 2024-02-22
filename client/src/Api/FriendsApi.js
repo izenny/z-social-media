@@ -3,7 +3,7 @@ import { publicRequest } from "../Request/RequestMethod";
 export const FriendsApi = async (id) => {
   try {
     const friends = await publicRequest.get(`users/friends/${id}`);
-    console.log('friendssss',friends.data.friends);
+    console.log('friendssssapi',friends.data.friends);
     return friends.data.friends;
   } catch (err) {
     console.log("err in friends api", err);

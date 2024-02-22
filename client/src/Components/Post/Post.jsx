@@ -12,6 +12,7 @@ import {
 } from "../../Api/NotificationApi";
 
 const Post = ({ friendsId }) => {
+  console.log('user friend in post',friendsId);
   const [posts, setPosts] = useState([]);
   const userData = useSelector((state) => state.userDetails.userInfo[0]);
   if (userData) {
@@ -20,6 +21,7 @@ const Post = ({ friendsId }) => {
   }
 
   useEffect(() => {
+    console.log('friends id in post',friendsId);
     const fetchPosts = async () => {
       try {
         // const fetchedPosts = await PostData(friendsId);
@@ -36,7 +38,7 @@ const Post = ({ friendsId }) => {
     };
 
     fetchPosts();
-  }, [userId]);
+  }, [friendsId]);
 
   const handleLike = async (authorId,postId) => {
     const NewLikeNotificationdata = {

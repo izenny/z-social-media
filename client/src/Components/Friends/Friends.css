@@ -1,13 +1,16 @@
 .friends-p {
   width: 100%;
+  
 }
 .friends-c {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  
 }
 .friend {
   display: flex;
+  
   justify-content: space-between;
   align-items: center;
   width: 16rem;
@@ -35,7 +38,8 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    color: rgba(0, 0, 255, 0.701);
+    /* color: rgba(0, 0, 255, 0.701); */
+    color: blue;
     /* background-color: aliceblue; */
     font-size: 20px;
     height: 100%;

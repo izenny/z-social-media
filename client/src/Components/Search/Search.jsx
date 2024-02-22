@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import "./Search.css";
-import { SearchApi } from "../../Api/UsersApi";
+
 import { Modal, Button } from "react-bootstrap";
-// import Users from "../Users/Users";
-const Search = () => {
+
+import Users from '../Users/Users'
+import { SearchApi } from "../../Api/UsersApi";
+const Search = ({friendsId}) => {
+  console.log('idsdsd',friendsId);
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
 
@@ -25,7 +28,7 @@ const Search = () => {
 
   return (
     <div className="search-p">
-      <div className="search">
+      <div className="search-c">
         <div className="search-input-div">
           <input
             type="text"
@@ -52,7 +55,8 @@ const Search = () => {
           <Modal.Title>Search Results</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* <Users searchusers={searchResults} /> */}
+          
+          <Users searchResults = {searchResults}/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>

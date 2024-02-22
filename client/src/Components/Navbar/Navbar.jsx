@@ -53,12 +53,12 @@ const Navbar = () => {
             </div>
           </NavLink>
 
-          <NavLink to={"/"}>
+          {/* <NavLink to={"/"}> */}
             {" "}
             <div className="icons-fa" onClick={Logout}>
               <FaSignOutAlt className="icon" />
             </div>
-          </NavLink>
+          {/* </NavLink> */}
         </div>
       </div>
     </div>

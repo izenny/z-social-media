@@ -1,0 +1,138 @@
+.user-page {
+  /* display: flex;
+  flex-direction: row; */
+  width: fit-content;
+  height: fit-content;
+  background: #c2dbf375;
+  margin: 2rem;
+  padding: 1rem 1rem;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.user-avatar {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 5px;
+  display: flex;
+
+  justify-content: center;
+  overflow: hidden;
+}
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*Text*/
+.user-title {
+  color: #333;
+  font-size: 1.5em;
+  font-weight: 600;
+  line-height: 2rem;
+  margin-top: 0.3rem;
+}
+
+.user-subtitle {
+  color: #859ba8;
+  font-size: 0.8em;
+  margin-bottom: 0.3rem;
+}
+
+/*Hover*/
+.user-page:hover {
+  box-shadow: 0 8px 20px #23232333;
+}
+
+.user-page:hover .user-info {
+  transform: translateY(-2%);
+}
+
+.user-avatar:hover {
+  transform: scale(1.05);
+}
+/* user button */
+.user-add-button{
+    width: 140px;
+    height: 40px;
+    border-radius: 12px;
+    border: none;
+    
+}
+.user-add-b {
+    height: 100%;
+    /* background-color: rgb(255, 208, 0); */
+    background-color: blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition-duration: 0.5s;
+    overflow: hidden;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.103);
+    position: relative;
+    color: white;
+    
+    
+  }
+  
+  .user-span-add {
+    position: absolute;
+    left: -50px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 2;
+    transition-duration: 0.5s;
+    
+  }
+  
+  .user-icon-add {
+    border-radius: 1px;
+  }
+  
+  .user-text-add {
+    height: 100%;
+    /* width: fit-content; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* color: rgb(17, 17, 17); */
+    /* color: white; */
+    z-index: 1;
+    text-align: center;
+    transition-duration: 0.5s;
+    font-size: 15px;
+    font-weight: 600;
+    /* background-color: #333; */
+    /* padding: 0; */
+    margin: 0;
+  }
+  
+  .user-add-b:hover .user-span-add {
+    transform: translateX(58px);
+    border-radius: 40px;
+    transition-duration: 0.5s;
+  }
+  
+  .user-add-b:hover .user-text-add {
+    transform: translate(10px, 0px);
+    transition-duration: 0.5s;
+  }
+  
+  .user-add-b:active {
+    transform: scale(0.95);
+    transition-duration: 0.5s;
+  }

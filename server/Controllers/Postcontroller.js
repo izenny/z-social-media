@@ -122,27 +122,39 @@ exports.deletePost = async (req, res) => {
   }
 };
 // posts by userid
-exports.getPostsByUserId = async (req, res) => {
-  try {
-    const userId = req.params.userId;
-    const posts = await Post.find({ author: userId })
+// exports.getPostsByUserId = async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
+//     const posts = await Post.find({ author: userId })
       // .populate("author", "firstname lastname")
       // .lean();
 
     // Extract image data from posts
-    const postsWithImageData = await Promise.all(
-      posts.map(async (post) => {
-        if (post.image && post.image.data) {
-          // Convert Buffer to base64 string
-          const imageData = Buffer.from(post.image.data).toString("base64");
-          const imageSrc = `data:${post.image.contentType};base64,${imageData}`;
-          return { ...post, imageSrc }; // Add imageSrc field to the post object
-        }
-        return post;
-      })
-    );
+    // const postsWithImageData = await Promise.all(
+    //   posts.map(async (post) => {
+        // if (post.image && post.image.data) {
+        //   Convert Buffer to base64 string
+        //   const imageData = Buffer.from(post.image.data).toString("base64");
+        //   const imageSrc = `data:${post.image.contentType};base64,${imageData}`;
+        //   return { ...post, imageSrc }; 
+        // }
+    //     return post;
+    //   })
+    // );
 
-    res.json(postsWithImageData);
+//     res.json(posts);
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// };
+exports.getPostsByUserId = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const posts = await Post.find({ author: userId })
+      .populate("author", "firstname lastname")
+      .lean();
+
+    res.json(posts);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
