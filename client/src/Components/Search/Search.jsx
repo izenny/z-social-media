@@ -2,25 +2,27 @@ import React, { useEffect, useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import "./Search.css";
 
-import { Modal, Button } from "react-bootstrap";
 
-import Users from '../Users/Users'
+
+
 import { SearchApi } from "../../Api/UsersApi";
+import { useNavigate } from "react-router-dom";
 const Search = ({friendsId}) => {
   console.log('idsdsd',friendsId);
-  const [showModal, setShowModal] = useState(false);
-  const handleCloseModal = () => setShowModal(false);
+
 
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-
+  const navigateSearch = useNavigate();
   const submitSearch = async () => {
     try {
       const searchResult = await SearchApi(searchText);
       console.log(searchText);
       setSearchResults(searchResult);
       console.log("search result in jsx", searchResult);
-      setShowModal(true);
+      
+      navigateSearch(`/searchresults/${encodeURIComponent(JSON.stringify(searchResult))}`);
+      
     } catch (err) {
       console.log("search errorr in jsx");
     }
@@ -46,24 +48,7 @@ const Search = ({friendsId}) => {
           </button>
         </div>
       </div>
-      <Modal
-        show={showModal}
-        onHide={handleCloseModal}
-        dialogClassName="modal-responsive"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Search Results</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          
-          <Users searchResults = {searchResults}/>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      
     </div>
   );
 };

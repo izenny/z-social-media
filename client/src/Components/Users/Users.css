@@ -38,13 +38,14 @@
   font-weight: 600;
   line-height: 2rem;
   margin-top: 0.3rem;
-}
-
-.user-subtitle {
-  color: #859ba8;
-  font-size: 0.8em;
   margin-bottom: 0.3rem;
 }
+
+/* .user-subtitle {
+  color: #859ba8;
+  font-size: 0.8em;
+  
+} */
 
 /*Hover*/
 .user-page:hover {

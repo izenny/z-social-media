@@ -16,6 +16,9 @@ import Messages from "./Components/Messages/Messages";
 import { FriendsApi } from "./Api/FriendsApi";
 import Users from "./Components/Users/Users";
 import Friends from "./Components/Friends/Friends";
+import Settings from "./Components/Settings/Settings";
+import Updateprofile from "./Components/Update/Updateprofile";
+import Searchresults from "./Components/Search/Searchresults";
 
 function App() {
   const userData = useSelector((state) => state.userDetails.userInfo[0]);
@@ -43,25 +46,24 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Home userId={loggedUserId} />} />
 
-                  <Route
-                    path="/profile"
-                    element={<Profile userId={loggedUserId} />}
-                  >
+                  <Route path="/profile" element={<Profile userId={loggedUserId} />}>
                     <Route path="/profile/post" element={<Post />} />
                     <Route path="/profile/friends" element={<Friends/>}/>
                   </Route>
 
                   <Route
                     path="/messages/:room"
-                    element={<Chat userId={loggedUserId} />}
-                  />
+                    element={<Chat userId={loggedUserId} />}/>
+                    <Route path="/settings" element={<Settings/>}/>
+                    <Route path="/settings/updateProfile" element={<Updateprofile/>}/>
+                    <Route path="/searchresults/:searchresults" element ={<Searchresults/>}/>
                 </Routes>
               </div>
             </div>
             <div className="right">
               <div className="right-p">
                 <Routes>
-                  <Route path="/notifications" element={<Notifications />} />
+                  <Route path="/notifications" element={<Notifications userId={loggedUserId}/>} />
                   <Route path="/messages/*" element={<Messages />} />
                 </Routes>
               </div>

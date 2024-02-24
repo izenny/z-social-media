@@ -51,7 +51,7 @@ const Profile = ({userId}) => {
         <div className="user-profile">
           <Routes>
             <Route path='post' element={<Post friendsId={[userId]}/>} />
-            <Route path='friends' element={<Friends friends={profileInfo.friends} friendrequests={profileInfo.friendrequest} />} />
+            <Route path='friends' element={<Friends userId={userId} friends={profileInfo.friends} friendrequests={profileInfo.friendrequest} />} />
           </Routes>
         </div>
         </>):(<h2>Loading profile....</h2>)}

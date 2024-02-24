@@ -57,7 +57,16 @@
 /* .friend-name h5{
   font-size: 12px;
 } */
-.friend-message,
+.friend-message{
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2rem;
+    width: 2rem;
+    /* background-color: aqua; */
+    cursor: pointer;
+    color: blue;
+}
  .friend-remove{
     display: flex;
     justify-content: center;

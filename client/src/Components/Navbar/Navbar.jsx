@@ -51,14 +51,10 @@ const Navbar = () => {
             <div className="icons-fa">
               <FaCog className="icon" />
             </div>
-          </NavLink>
-
-          {/* <NavLink to={"/"}> */}
-            {" "}
-            <div className="icons-fa" onClick={Logout}>
-              <FaSignOutAlt className="icon" />
-            </div>
-          {/* </NavLink> */}
+          </NavLink>{" "}
+          <div className="icons-fa" onClick={Logout}>
+            <FaSignOutAlt className="icon" />
+          </div>
         </div>
       </div>
     </div>

@@ -1,0 +1,20 @@
+.settings-p{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    
+}
+.settings-c{
+    display: flex;
+    width: 100%;
+    margin: 5rem;
+    flex-direction: column;
+    
+}
+.settings-c button{
+    margin: 2rem;
+    margin-bottom: 2rem;
+    
+}

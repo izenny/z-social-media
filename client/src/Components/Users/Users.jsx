@@ -19,7 +19,7 @@ const Users = ({searchResults}) => {
              />
            </div>
            <div className="user-title">{user.firstname} {user.lastname}</div>
-           <div className="user-subtitle">CEO &amp; Co-Founder</div>
+           {/* <div className="user-subtitle">CEO &amp; Co-Founder</div> */}
            <div className="user-add-button" >
              <button className="user-add-b" onClick={()=>addFunction(user._id)}>
                <span className="user-span-add">

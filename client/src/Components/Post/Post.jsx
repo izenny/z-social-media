@@ -10,9 +10,10 @@ import {
   commentNotificationApi,
   likeNotificationApi,
 } from "../../Api/NotificationApi";
+import Likeicon from "../Icons/Likeicon";
 
 const Post = ({ friendsId }) => {
-  console.log('user friend in post',friendsId);
+  console.log("user friend in post", friendsId);
   const [posts, setPosts] = useState([]);
   const userData = useSelector((state) => state.userDetails.userInfo[0]);
   if (userData) {
@@ -21,7 +22,7 @@ const Post = ({ friendsId }) => {
   }
 
   useEffect(() => {
-    console.log('friends id in post',friendsId);
+    console.log("friends id in post", friendsId);
     const fetchPosts = async () => {
       try {
         // const fetchedPosts = await PostData(friendsId);
@@ -40,7 +41,7 @@ const Post = ({ friendsId }) => {
     fetchPosts();
   }, [friendsId]);
 
-  const handleLike = async (authorId,postId) => {
+  const handleLike = async (authorId, postId) => {
     const NewLikeNotificationdata = {
       user: authorId,
       type: `like ${postId}`,
@@ -102,14 +103,24 @@ const Post = ({ friendsId }) => {
               </div>
             </div>
             <div className="post-footer">
+              {/* <div
+                className="likes"
+                onClick={() => handleLike(post.author, post._id)}
+              >
+                
+                {post.likes.includes(userId) ? <FcLike /> : <FaRegHeart />}
+                <span className="count">{post.likes.length} Likes</span>
+              </div> */}
+              {/* changing icon */}
               <div
                 className="likes"
                 onClick={() => handleLike(post.author, post._id)}
               >
                 {/* Conditional rendering of like button based on whether the user has already liked the post */}
-                {post.likes.includes(userId) ? <FcLike /> : <FaRegHeart />}
-                <span className="count">{post.likes.length} Likes</span>
+                <Likeicon liked={post.likes.includes(userId)} count ={post.likes.length} />
+                {/* <span className="count">{post.likes.length} Likes</span> */}
               </div>
+
               <div
                 className="comments"
                 onClick={() => handleComment(post.author, post._id)}

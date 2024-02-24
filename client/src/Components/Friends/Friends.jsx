@@ -9,8 +9,21 @@ import {
   AiOutlineDelete,
 } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
-const Friends = ({ friends, friendrequests }) => {
-    
+import { NewChatApi } from "../../Api/ChatApi";
+const Friends = ({ userId, friends, friendrequests }) => {
+  const startChat = async (friendId) => {
+    try {
+      
+      console.log('avdhfvahgd',userId);
+      console.log('avdhfvahgd',friendId);
+      const newChat = await NewChatApi({userId,friendId})
+      console.log('new chat', newChat);
+    } catch (err) {
+      console.log("Error starting chat:", err);
+    }
+  };
+
+   
   
   return (
     <div className="friends-p">
@@ -32,7 +45,7 @@ const Friends = ({ friends, friendrequests }) => {
               </div>
               <div className="friend-icons">
                 <NavLink to={"/messages"}>
-                  <div className="friend-message">
+                  <div className="friend-message" onClick={()=>startChat(friend._id)}>
                     <AiOutlineMessage />
                   </div>
                 </NavLink>
