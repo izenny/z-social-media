@@ -19,6 +19,7 @@ import Friends from "./Components/Friends/Friends";
 import Settings from "./Components/Settings/Settings";
 import Updateprofile from "./Components/Update/Updateprofile";
 import Searchresults from "./Components/Search/Searchresults";
+import Changepassword from "./Components/Password/Changepassword";
 
 function App() {
   const userData = useSelector((state) => state.userDetails.userInfo[0]);
@@ -73,6 +74,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/forgotpassword" element ={<Changepassword/>}/>
           </Routes>
         )}
       </div>

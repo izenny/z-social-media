@@ -1,6 +1,8 @@
 const User = require("../Modals/Userschema");
 const Crypto = require("crypto-js");
 const jwt = require("jsonwebtoken");
+const uuid = require("uuid");
+const sendEmail = require("../Nodemailer/Nodemailer");
 //create user
 exports.createUser = async (req, res) => {
   const newUser = new User({
@@ -56,14 +58,7 @@ exports.verifyLogin = async (req, res) => {
   }
 };
 
-// exports.getAllUsers = async (req, res) => {
-//     try {
-//       const users = await User.find();
-//       res.json(users);
-//     } catch (err) {
-//       res.status(500).json({ message: err.message });
-//     }
-//   };
+
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find({}, "id firstname lastname friendrequest");
@@ -205,3 +200,31 @@ exports.newFriend = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 };
+// for forgot password
+
+exports.forgotPassword = async (req, res)=>{
+  const {email} = req.body;
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const token = uuid.v4();
+    user.resetPasswordToken = token;
+    user.resetPasswordExpires = Date.now()+3600000;
+    await user.save();
+    const resetLink = `http://your-frontend-url/reset-password/${token}`;
+    const emailData = {
+      to: email,
+      subject: 'Reset your password',
+      text: `Click this link to reset your password: ${resetLink}`,
+    };
+    await sendEmail(emailData);
+    res.status(200).json({ message: 'Password reset email sent' });
+} catch (error) {
+  console.error(error);
+  res.status(500).json({ message: 'Server Error' });
+  
+}
+}

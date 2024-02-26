@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../Account/Login.css";
 import { LoginData } from "../Api/LoginApi";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 const Login = () => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -51,7 +51,7 @@ const Login = () => {
                 <input type="checkbox" />
                 Remember me
               </label>
-              <a href="#">Forgot Password?</a>
+            <NavLink to={'/forgotpassword'}>Forgot Password?</NavLink> 
             </div>
             <button type="submit" onClick={submitData}>
               Login

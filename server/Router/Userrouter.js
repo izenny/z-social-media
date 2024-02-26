@@ -10,4 +10,5 @@ router.put("/friendreq/:userId", userController.friendReqestsId);
 router.get('/friends/:id',userController.getFriends)
 router.get("/search/:searchText", userController.searchUsers);
 router.post("/addfriend/:userId", userController.newFriend);
+router.post('/resetpassword',userController.forgotPassword)
 module.exports = router;
