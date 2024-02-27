@@ -1,19 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation, useHistory } from "react-router-dom";
+import { newPasswordApi } from "../../Api/LoginApi";
 
 const Changepassword = () => {
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const submitNewPassword = () => {
-    console.log("password", password);
-    console.log("password", newPassword);
-    if(password == newPassword){
-        try{
-            console.log('new password sent');
-        }catch(err){
-            console.log('new pass err',err);
-    }
+  const [email, setEmail] = useState("");
+  const [token, setToken] = useState("");
+  const [message, setMessage] = useState("");
+  const location = useLocation();
+  // const history = useHistory();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const Email = searchParams.get("email");
+    setEmail(Email);
+    const Token = searchParams.get("token");
+    setToken(Token);
+  }, [location.search]);
+
+  const submitNewPassword = async () => {
+    if (password === newPassword) {
+      try {
+        await newPasswordApi({ email, token, newPassword });
+        setMessage("Password updated successfully");
+        setTimeout(() => {
+          // history.push("/");
+        }, 2000); // Redirect to login page after 2 seconds
+      } catch (err) {
+        console.log("new pass err", err);
+      }
     }
   };
+
   return (
     <div className="reset-password-p">
       <div className="reset-password-c">
@@ -24,6 +43,7 @@ const Changepassword = () => {
               <div>
                 <input
                   type="password"
+                  placeholder="Password"
                   required
                   value={password}
                   onChange={(e) => {
@@ -34,6 +54,7 @@ const Changepassword = () => {
               <div>
                 <input
                   type="password"
+                  placeholder="New Password"
                   required
                   value={newPassword}
                   onChange={(e) => {
@@ -45,6 +66,7 @@ const Changepassword = () => {
             <button type="submit">Submit</button>
           </div>
         </form>
+        {message && <p>{message}</p>}
       </div>
     </div>
   );

@@ -19,15 +19,7 @@ export const friedRequest = async (userId, FrireqId) => {
     console.log("users req error", err);
   }
 };
-// export const friedRequestGet = async(userId)=>{
-//     try{
-//         const requestf = await publicRequest.get(`users/friendreq/${userId}`)
-//         console.log('req',requestf.data);
-//         return requestf.data
-//     }catch(err){
-//         console.log('err fetching req',err);
-//     }
-// }
+
 export const SearchApi = async (searchText) => {
   try {
     const search = await publicRequest.get(`users/search/${searchText}`);

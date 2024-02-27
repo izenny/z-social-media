@@ -10,5 +10,8 @@ router.put("/friendreq/:userId", userController.friendReqestsId);
 router.get('/friends/:id',userController.getFriends)
 router.get("/search/:searchText", userController.searchUsers);
 router.post("/addfriend/:userId", userController.newFriend);
-router.post('/resetpassword',userController.forgotPassword)
+router.post('/resetpassword',userController.forgotPassword);
+router.post('/newpassword',userController.newPassword)
+router.put('/updateprofile/:id',userController.updateProfileInfo)
+router.post('/newProfilePic/:id',userController.newProfilePic)
 module.exports = router;

@@ -68,19 +68,7 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-// exports.getUserById = async (req, res) => {
-//     let user;
-//     try {
-//       user = await User.findById(req.params.id);
-//       if (user == null) {
-//         return res.status(404).json({ message: 'Cannot find user' });
-//       }
-//     } catch (err) {
-//       return res.status(500).json({ message: err.message });
-//     }
 
-//     res.json(user);
-//   };
 exports.friendReqestsId = async (req, res) => {
   try {
     const friendreqId = req.query.friendreqId;
@@ -214,7 +202,7 @@ exports.forgotPassword = async (req, res)=>{
     user.resetPasswordToken = token;
     user.resetPasswordExpires = Date.now()+3600000;
     await user.save();
-    const resetLink = `http://your-frontend-url/reset-password/${token}`;
+    const resetLink =`http://localhost:3000/reset-password?email=${email}&token=${token}`;
     const emailData = {
       to: email,
       subject: 'Reset your password',
@@ -228,3 +216,95 @@ exports.forgotPassword = async (req, res)=>{
   
 }
 }
+//reset password
+
+exports.newPassword = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.Email });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the token from the frontend matches the token in the database
+    if (req.body.Token !== user.resetPasswordToken) {
+      return res.status(400).json({ message: "Invalid token" });
+    }
+
+    // Check if the token is expired
+    if (Date.now() > user.resetPasswordExpires) {
+      return res.status(400).json({ message: "Token expired" });
+    }
+
+    // Update the user's password in the database
+    user.password = Crypto.AES.encrypt(
+      req.body.NewPassword,
+      process.env.Crypto_js).toString();
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+//profile info update
+exports.updateProfileInfo = async (req,res)=>{
+  try{
+    const user = User.findByIdAndUpdate(req.params.id,{
+     $set:req.body, 
+    },{new:true})
+    res.status(200).json({data:user})
+        console.log("updated",user);
+  }catch(err){
+    console.log('eer in updating user info',err);
+  }
+}
+//update profile pic
+const multer = require('multer');
+const path = require('path')
+const storage = multer.diskStorage({
+  destination:function(req, file, cb){
+    cb(null,'uploads');
+  },
+  filename:function(req, file, cb){
+    cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+const upload = multer({
+  storage: storage
+}).single('image')
+exports.newProfilePic = async (req, res) => {
+  try {
+    upload(req, res, async (err) => {
+      if (err) {
+        // Handle Multer error
+        return res.status(500).json({ message: 'Failed to upload image' });
+      }
+
+      // File uploaded successfully
+      if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded' });
+      }
+
+      // Update the user's profile picture in the database
+      const user = await User.findById(req.params.id); // Assuming userId is available in the request
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      user.profilePic = req.file.path; // Assuming 'profilePic' is a field in your UserSchema
+      await user.save();
+
+      // Return success response
+      return res.status(200).json({ message: 'Profile picture updated successfully' });
+    });
+  } catch (err) {
+    // Handle other errors
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};

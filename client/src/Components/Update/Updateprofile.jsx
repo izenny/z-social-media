@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UpdateProfileInfo } from "../../Api/UpdateApi";
 import { useParams } from "react-router-dom";
 import './Updateprofile.css'
+import { ProfileData } from "../../Api/ProfileApi";
 const Updateprofile = () => {
   const userId = useParams()
   const [Firstname, setFirstname] = useState("");
@@ -24,7 +25,7 @@ const Updateprofile = () => {
   }, [userId]);
   const SubmitProfileData = () => {
     console.log(Firstname, Lastname, Email, Dob);
-    UpdateProfileInfo(id,{Firstname,Lastname,Email,Dob})
+    UpdateProfileInfo(userId,{Firstname,Lastname,Email,Dob})
   };
   return (
     <div className="update-profile-p">

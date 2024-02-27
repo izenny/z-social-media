@@ -10,3 +10,21 @@ export const LoginData = async (Dispatch, login) => {
     console.log("login error", err);
   }
 };
+
+export const resetPassEmail = async(email)=>{
+  try{
+    const Email = await publicRequest.post('users/resetpassword',email)
+    console.log('email send',Email.data);
+  }catch(err){
+    console.log('email send err',err);
+  }
+}
+
+export const newPasswordApi = async(emailpasstoken)=>{
+  try{
+    const pass = await publicRequest.post('users/newpassword',emailpasstoken);
+    console.log('password reseted',pass.data);
+  }catch(err){
+    console.log('err in password reset',err);
+  }
+}
