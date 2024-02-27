@@ -84,7 +84,7 @@ function App() {
                     path="/notifications"
                     element={<Notifications userId={loggedUserId} />}
                   />
-                  <Route path="/messages/*" element={<Messages />} />
+                  <Route path="/messages/*" element={<Messages userId={loggedUserId} />} />
                 </Routes>
               </div>
             </div>

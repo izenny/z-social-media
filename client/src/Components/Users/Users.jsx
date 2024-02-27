@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Users.css";
 import { AiOutlineUserAdd, AiOutlineUserDelete } from "react-icons/ai";
-const Users = ({searchResults}) => {
+const Users = ({userId,searchResults}) => {
   const [added, setAdded] = useState(false);
 
   const addFunction = () => {

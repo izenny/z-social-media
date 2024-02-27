@@ -4,13 +4,10 @@ import { ChatDataApi } from "../../Api/ChatApi";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
-const Messages = () => {
+const Messages = ({userId}) => {
   const [chatmsg, setChatmsg] = useState([]);
 
-  const userData = useSelector((state) => state.userDetails.userInfo[0]);
-  if (userData) {
-    var userId = userData._id;
-  }
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {

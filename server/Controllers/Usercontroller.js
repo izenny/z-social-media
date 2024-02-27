@@ -251,18 +251,7 @@ exports.newPassword = async (req, res) => {
   }
 };
 
-//profile info update
-// exports.updateProfileInfo = async (req,res)=>{
-//   try{
-//     const user = User.findByIdAndUpdate(req.params.userId,{
-//      $set:req.body, 
-//     },{new:true})
-//     res.status(200).json({data:user})
-//         console.log("updated",user);
-//   }catch(err){
-//     console.log('eer in updating user info',err);
-//   }
-// }
+
 exports.updateProfileInfo = async (req, res) => {
   try {
     console.log('reqqqq updating data',req.body);
