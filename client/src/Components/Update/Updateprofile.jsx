@@ -4,15 +4,16 @@ import { useParams } from "react-router-dom";
 import './Updateprofile.css'
 import { ProfileData } from "../../Api/ProfileApi";
 const Updateprofile = () => {
-  const userId = useParams()
-  const [Firstname, setFirstname] = useState("");
-  const [Lastname, setLastname] = useState("");
-  const [Email, setEmail] = useState("");
-  const [Dob, setDob] = useState("");
+  const {userId} = useParams()
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  // const [Dob, setDob] = useState("");
   const [profileInfo, setProfileInfo] = useState(null);
 
   useEffect(() => {
     const ProfileDataFunction = async () => {
+      console.log('iiiiiiiii',userId);
       try {
         const fetchedProfileData = await ProfileData(userId);
         setProfileInfo(fetchedProfileData);
@@ -24,19 +25,19 @@ const Updateprofile = () => {
     ProfileDataFunction();
   }, [userId]);
   const SubmitProfileData = () => {
-    console.log(Firstname, Lastname, Email, Dob);
-    UpdateProfileInfo(userId,{Firstname,Lastname,Email,Dob})
+    console.log(firstname, lastname, email);
+    UpdateProfileInfo(userId,{firstname,lastname,email})
   };
   return (
     <div className="update-profile-p">
       <div className="update-profile-c">
-        <form action="">
+        <form >
           <label>
             Firstname
             <input
               type="text"
-              placeholder={profileInfo && profileInfo.Firstname}
-              value={Firstname}
+              placeholder={profileInfo && profileInfo.firstname}
+              value={firstname}
               onChange={(e) => {
                 setFirstname(e.target.value);
               }}
@@ -47,8 +48,8 @@ const Updateprofile = () => {
             Lastname
             <input
               type="text"
-              placeholder={profileInfo && profileInfo.Lastname}
-              value={Lastname}
+              placeholder={profileInfo && profileInfo.lastname}
+              value={lastname}
               onChange={(e) => {
                 setLastname(e.target.value);
               }}
@@ -59,26 +60,26 @@ const Updateprofile = () => {
             Email
             <input
               type="email"
-              placeholder={profileInfo && profileInfo.Email}
-              value={Email}
+              placeholder={profileInfo && profileInfo.email}
+              value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
             />
           </label>{" "}
           <br />
-          <label>
+          {/* <label>
             DOB
             <input
               type="date"
-              placeholder={profileInfo && profileInfo.DOB}
+              placeholder={profileInfo && profileInfo.dob}
               value={Dob}
               onChange={(e) => {
                 setDob(e.target.value);
               }}
             />
           </label>{" "}
-          <br />
+          <br /> */}
           <button onClick={SubmitProfileData}>Update</button>
         </form>
       </div>

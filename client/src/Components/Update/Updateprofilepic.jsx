@@ -3,7 +3,8 @@ import { uploadProfilePic } from "../../Api/UpdateApi";
 import { useParams } from "react-router-dom";
 
 const Updateprofilepic = () => {
-    const { id } = useParams();
+    const { userId } = useParams();
+    console.log('idddddd',userId);
     const [file , setFile] = useState(null)
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -14,7 +15,7 @@ const Updateprofilepic = () => {
           return;
         }
     
-        const result = await uploadProfilePic(id,file);
+        const result = await uploadProfilePic(userId,file);
     
         if (result.success) {
           alert("Image uploaded successfully");

@@ -2,7 +2,7 @@ import React from "react";
 import './Settings.css'
 import { NavLink } from "react-router-dom";
 const Settings = ({userId}) => {
-  
+  console.log('userid',userId);
   return (
     <div className="settings-p">
       <div className="settings-c">

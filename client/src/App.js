@@ -21,6 +21,8 @@ import Searchresults from "./Components/Search/Searchresults";
 
 import Email from "./Account/Email";
 import Changepassword from "./Components/Password/Changepassword";
+import Updateprofilepic from "./Components/Update/Updateprofilepic";
+import { UpdateProfileInfo } from "./Api/UpdateApi";
 
 function App() {
   const userData = useSelector((state) => state.userDetails.userInfo[0]);
@@ -69,6 +71,9 @@ function App() {
                     path="/searchresults/:searchresults"
                     element={<Searchresults />}
                   />
+                  <Route path="settings/updateProfile/:userId" element = {<Updateprofile/>}/>
+
+                  <Route path="settings/UploadPrfilePic/:userId" element = {<Updateprofilepic/>}/>
                 </Routes>
               </div>
             </div>

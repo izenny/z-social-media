@@ -2,7 +2,7 @@ const router = require("express").Router();
 const userController = require("../Controllers/Usercontroller");
 
 router.get("/", userController.getAllUsers);
-router.get("/:id", userController.getUserById);
+router.get("/:userId", userController.getUserById);
 router.post("/", userController.createUser);
 router.delete("/:id", userController.deleteUser);
 router.post("/login", userController.verifyLogin);
@@ -12,6 +12,6 @@ router.get("/search/:searchText", userController.searchUsers);
 router.post("/addfriend/:userId", userController.newFriend);
 router.post('/resetpassword',userController.forgotPassword);
 router.post('/newpassword',userController.newPassword)
-router.put('/updateprofile/:id',userController.updateProfileInfo)
-router.post('/newProfilePic/:id',userController.newProfilePic)
+router.put('/updateprofile/:userId',userController.updateProfileInfo)
+router.post('/newProfilePic/:userId',userController.newProfilePic)
 module.exports = router;

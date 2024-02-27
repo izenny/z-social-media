@@ -96,8 +96,8 @@ exports.friendReqestsId = async (req, res) => {
 exports.getUserById = async (req, res) => {
   let user;
   try {
-    user = await User.findById(req.params.id)
-      .select("firstname lastname friends posts friendrequest")
+    user = await User.findById(req.params.userId)
+      .select("firstname lastname friends posts friendrequest profilePic email")
       .populate("friends", "firstname lastname")
       .populate("posts")
       .populate("friendrequest", "firstname lastname");
@@ -252,33 +252,53 @@ exports.newPassword = async (req, res) => {
 };
 
 //profile info update
-exports.updateProfileInfo = async (req,res)=>{
-  try{
-    const user = User.findByIdAndUpdate(req.params.id,{
-     $set:req.body, 
-    },{new:true})
-    res.status(200).json({data:user})
-        console.log("updated",user);
-  }catch(err){
-    console.log('eer in updating user info',err);
+// exports.updateProfileInfo = async (req,res)=>{
+//   try{
+//     const user = User.findByIdAndUpdate(req.params.userId,{
+//      $set:req.body, 
+//     },{new:true})
+//     res.status(200).json({data:user})
+//         console.log("updated",user);
+//   }catch(err){
+//     console.log('eer in updating user info',err);
+//   }
+// }
+exports.updateProfileInfo = async (req, res) => {
+  try {
+    console.log('reqqqq updating data',req.body);
+    const data = req.body
+    const user = await User.findByIdAndUpdate(req.params.userId, { $set: data }, { new: true });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    console.log('Updated user:', user);
+    res.status(200).json({ data: user });
+  } catch (err) {
+    console.error('Error updating user info:', err);
+    res.status(500).json({ message: 'Internal server error' });
   }
-}
+};
+
+
+
 //update profile pic
 const multer = require('multer');
 const path = require('path')
 const storage = multer.diskStorage({
   destination:function(req, file, cb){
-    cb(null,'uploads');
+    cb(null,'../client/public/images/');
   },
   filename:function(req, file, cb){
-    cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    cb(null,file.originalname);
   }
 });
 const upload = multer({
   storage: storage
 }).single('image')
 exports.newProfilePic = async (req, res) => {
+  console.log('upload image',req.params.userId);
   try {
+    console.log('upload image',req.params.userId);
     upload(req, res, async (err) => {
       if (err) {
         // Handle Multer error
@@ -291,20 +311,20 @@ exports.newProfilePic = async (req, res) => {
       }
 
       // Update the user's profile picture in the database
-      const user = await User.findById(req.params.id); // Assuming userId is available in the request
+      const user = await User.findById(req.params.userId);
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
 
-      user.profilePic = req.file.path; // Assuming 'profilePic' is a field in your UserSchema
+      user.profilePic = req.file.originalname; 
       await user.save();
-
+      console.log('upload image',req.params.userId);
       // Return success response
       return res.status(200).json({ message: 'Profile picture updated successfully' });
     });
   } catch (err) {
     // Handle other errors
-    console.error(err);
+    console.error('err in upload image',err);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
