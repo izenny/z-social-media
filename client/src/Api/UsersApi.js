@@ -9,17 +9,15 @@ export const usersData = async () => {
     console.log("users error", err);
   }
 };
-export const friedRequest = async (userId, FrireqId) => {
+export const friedRequest = async (userId, FriendId) => {
   try {
-    const usersreq = await publicRequest.put(
-      `users/friendreq/${userId}?friendreqId=${FrireqId}`
-    );
+    console.log('user idd',userId);
+    const usersreq = await publicRequest.put(`users/friendreq/${userId}`, FriendId);
     console.log("usersss req", usersreq);
   } catch (err) {
     console.log("users req error", err);
   }
 };
-
 export const SearchApi = async (searchText) => {
   try {
     const search = await publicRequest.get(`users/search/${searchText}`);

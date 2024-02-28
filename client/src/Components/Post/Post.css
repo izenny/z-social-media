@@ -26,25 +26,22 @@
     margin-left: 1rem;
   }
   .post-profile-pic {
+    display: flex;
     width: 3rem;
     height: 3rem;
     border-radius: 50%; /* Make it a circle */
-    display: flex;
+    
     justify-content: center; /* Horizontally center the content */
-    align-items: center; /* Vertically center the content */
+   
     margin-left: 0.4rem;
     overflow: hidden;
+    
   }
   
   .post-profile-pic img {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%; /* Make it a circle */
-    display: flex;
-    justify-content: center; /* Horizontally center the content */
-    align-items: center; /* Vertically center the content */
-    margin-left: 0.4rem;
-    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
   }
   
   .post-footer {
@@ -82,8 +79,13 @@
   .post-images {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 1rem;
+    /* align-items: center; */
+    /* width: 800px; */
+    height: 500px;
+    width: auto;
+
+    
+  
   }
   .post-text {
     margin: 1rem;
@@ -92,8 +94,11 @@
   .post-image {
     margin-right: 1rem;
     margin-bottom: 1rem;
-    max-width: 100%;
-    height: auto;
+    
+    
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
   }
   .post-content {
     height: max-content;

@@ -23,6 +23,7 @@ import Email from "./Account/Email";
 import Changepassword from "./Components/Password/Changepassword";
 import Updateprofilepic from "./Components/Update/Updateprofilepic";
 import { UpdateProfileInfo } from "./Api/UpdateApi";
+import Updateheaderimage from "./Components/Update/Updateheaderimage";
 
 function App() {
   const userData = useSelector((state) => state.userDetails.userInfo[0]);
@@ -48,6 +49,7 @@ function App() {
               </div>
               <div className="main">
                 <Routes>
+                  
                   <Route path="/" element={<Home userId={loggedUserId} />} />
 
                   <Route
@@ -69,11 +71,17 @@ function App() {
                   />
                   <Route
                     path="/searchresults/:searchresults"
-                    element={<Searchresults />}
+                    element={<Searchresults  userId={loggedUserId}/>}
                   />
                   <Route path="settings/updateProfile/:userId" element = {<Updateprofile/>}/>
 
                   <Route path="settings/UploadPrfilePic/:userId" element = {<Updateprofilepic/>}/>
+                  <Route path="settings/Uploadheader/:userId" element = {<Updateheaderimage/>}/>
+                  <Route
+                    path="/notifications"
+                    element={<Home userId={loggedUserId} />} 
+                  />
+
                 </Routes>
               </div>
             </div>
@@ -92,6 +100,8 @@ function App() {
         ) : (
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+
             <Route path="/signup" element={<SignUp />} />
             <Route path="/forgotpassword" element={<Email />} />
             <Route path="/reset-password" element={<Changepassword/>}/>

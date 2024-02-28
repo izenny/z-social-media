@@ -52,9 +52,11 @@ const Navbar = () => {
               <FaCog className="icon" />
             </div>
           </NavLink>{" "}
+          <NavLink to={"/login"}>
           <div className="icons-fa" onClick={Logout}>
             <FaSignOutAlt className="icon" />
           </div>
+          </NavLink>
         </div>
       </div>
     </div>

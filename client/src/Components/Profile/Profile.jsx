@@ -4,7 +4,7 @@ import { FaUserFriends, FaEdit } from "react-icons/fa";
 import { BsPostcardHeart } from "react-icons/bs";
 import { Link, Route, Routes } from "react-router-dom";
 import Post from "../Post/Post";
-import Home from "../Home/Home";
+
 import { ProfileData } from "../../Api/ProfileApi";
 import Friends from "../Friends/Friends";
 
@@ -28,16 +28,16 @@ const Profile = ({ userId }) => {
         {profileInfo ? (
           <>
             <div className="header-img">
-              <img src={`./images/${profileInfo.headerImage}`} alt="" />
+              <img src={`../images/${profileInfo.headerImage}`} alt="" />
             </div>
             <div className="profile-img">
               <img
-                src={`./images/${profileInfo.profilePic}`}
+                src={`../images/${profileInfo.profilePic}`}
                 alt="profile pic"
               />
             </div>
             <div className="user-name">
-              <h2>{profileInfo.firstname}</h2>
+              <h2>{profileInfo.firstname} {profileInfo.lastname}</h2>
             </div>
             <div className="user-profile-icons">
               <Link

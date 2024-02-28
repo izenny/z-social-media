@@ -47,11 +47,11 @@ io.on("connection", (socket) => {
     console.log('message received ', data);
     ChatController.sendMessage(io, socket, data);
   })
-  socket.on('addFriend', (data)=>{
-    console.log('friend req',data);
-    UserController.newFriendRequest(data)
+  // socket.on('addFriend', (data)=>{
+  //   console.log('friend req',data);
+  //   UserController.newFriendRequest(data)
     
-  })
+  // })
   
 
   socket.on("disconnect", () => {

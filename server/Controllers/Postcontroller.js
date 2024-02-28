@@ -7,7 +7,10 @@ const storage = multer.diskStorage({
     cb(null, "../client/public/postimages/");
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    // Save the filename to a variable for later use
+    const filename = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+    // Pass the filename to the callback
+    cb(null, filename);
   },
 });
 const upload = multer({
@@ -20,10 +23,11 @@ exports.createPost = async (req, res) => {
         return res.status(500).json({ message: "Failed to upload image" });
       }
       const { author, content } = req.body;
-      const newPost = new Post({ author, content });
+      let imageFilename = null;
       if (req.file) {
-        newPost.image = req.file.originalname;
+        imageFilename = req.file.filename;
       }
+      const newPost = new Post({ author, content, image: imageFilename });
       const savedPost = await newPost.save();
       const user = await User.findById(author);
       if (!user) {
@@ -42,37 +46,7 @@ exports.createPost = async (req, res) => {
   }
 };
 
-// exports.createPost = async (req, res) => {
-//   console.log("working");
-//   try {
-//     // Create a new Post
-//     const { author, content } = req.body;
-//     const newPost = new Post({ author, content });
 
-//     // Store the image filename in the Images field
-//     if (req.file) {
-//       newPost.image = req.file.originalname;
-//     }
-
-//     // Save the newPost to the database
-//     const savedPost = await newPost.save();
-
-//     // Update the User's posts array with the new Post's ObjectId
-//     const user = await User.findById(author);
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-
-//     user.posts.push(savedPost._id); // Add the new Post's ObjectId to the User's posts array
-//     await user.save();
-
-//     console.log("Posted");
-//     res.status(201).json(savedPost);
-//   } catch (err) {
-//     console.error("Error:", err);
-//     res.status(400).json({ message: err.message });
-//   }
-// };
 
 
 //like fuction
@@ -114,7 +88,7 @@ exports.getAllPosts = async (req, res) => {
 };
 //get post by id
 exports.getPostById = async (req, res) => {
-  // let post;
+  
   try {
     const post = await Post.findById(req.params.id);
     res.json(post);
@@ -137,7 +111,7 @@ exports.getPostsByUserId = async (req, res) => {
   try {
     const userId = req.params.userId;
     const posts = await Post.find({ author: userId })
-      .populate("author", "firstname lastname")
+      .populate("author", "firstname lastname profilePic ")
       .lean();
 
     res.json(posts);

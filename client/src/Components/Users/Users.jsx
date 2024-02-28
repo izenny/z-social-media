@@ -1,14 +1,24 @@
 import React, { useState } from "react";
 import "./Users.css";
 import { AiOutlineUserAdd, AiOutlineUserDelete } from "react-icons/ai";
-import io from "socket.io-client";
-const socket = io("http://localhost:5002");
+import { friedRequest } from "../../Api/UsersApi";
+// import io from "socket.io-client";
+// const socket = io("http://localhost:5002");
 const Users = ({userId,searchResults}) => {
+  console.log('kikikikiki',userId);
+  console.log('serch user',searchResults);
   const [added, setAdded] = useState(false);
-
-  const addFunction = (FriendId) => {
-    socket.emit("addFriend",{userId,FriendId})
-    // setAdded(!added);
+console.log('user iddj',userId);
+  const addFunction = async(FriendId) => {
+    // socket.emit("addFriend",{userId,FriendId})
+    console.log('ukukukuku',FriendId);
+    try{
+      await friedRequest(userId, {FriendId});
+      
+    }catch(err){
+      console.log("err sending frend request", err);
+    }
+    
   };
   return (
     <div>
@@ -26,13 +36,19 @@ const Users = ({userId,searchResults}) => {
            <div className="user-add-button" >
              <button className="user-add-b" onClick={()=>addFunction(user._id)}>
                <span className="user-span-add">
-                 {added ? (
+                 {/* {added ? (
                    <AiOutlineUserDelete className="user-icon-add" />
                  ) : (
                    <AiOutlineUserAdd className="user-icon-add" />
-                 )}
+                 )} */}
+                 {user.friendrequest.includes(userId) ? (
+                      <AiOutlineUserDelete className="user-icon-add" />
+                    ) : (
+                      <AiOutlineUserAdd className="user-icon-add" />
+                    )}
                </span>
-               <p className="user-text-add">{added ? "Added" : "Add Friend"}</p>
+               <p className="user-text-add">{user.friendrequest.includes(userId)?  "Added" : "Add Friend"}</p>
+               
              </button>
            </div>
          </div>

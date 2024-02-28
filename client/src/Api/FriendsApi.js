@@ -9,11 +9,11 @@ export const FriendsApi = async (id) => {
     console.log("err in friends api", err);
   }
 };
-export const AddFriendApi = async (userId, newFriendId) => {
+export const AddFriendApi = async (userId, requestId ) => {
   try {
     const newFriend = await publicRequest.post(
       `users/addfriend/${userId}`,
-      newFriendId
+      requestId 
     );
     console.log("new friend added");
   } catch (err) {

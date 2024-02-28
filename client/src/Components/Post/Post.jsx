@@ -83,7 +83,10 @@ const Post = ({ friendsId }) => {
             <div className="post-head">
               <div className="post-header">
                 <div className="post-profile-pic">
-                  <img src={post.author.profilePicture} alt="Profile" />
+                  {/* <img src={post.author.profilePic} alt="Profile" /> */}
+                  <img src={`../images/${post.author.profilePic}`} alt="Profile" />
+
+                  
                 </div>
                 <div className="post-user-name">
                   <h5>
@@ -97,10 +100,18 @@ const Post = ({ friendsId }) => {
             </div>
             <div className="post-content">
               <h3 className="post-text">{post.content}</h3>
-              <div className="post-images">
+              
                 {/* Placeholder for displaying post images */}
-                {post.imageSrc && <img src={post.imageSrc} alt="Post image" />}
-              </div>
+                {post.image && (
+                  <div className="post-images">
+                  <img
+                    src={`../../postimages/${post.image}`}
+                    
+                    alt="Post image"
+                  />
+                  </div>
+                )}
+              
             </div>
             <div className="post-footer">
               {/* <div
@@ -117,7 +128,10 @@ const Post = ({ friendsId }) => {
                 onClick={() => handleLike(post.author, post._id)}
               >
                 {/* Conditional rendering of like button based on whether the user has already liked the post */}
-                <Likeicon liked={post.likes.includes(userId)} count ={post.likes.length} />
+                <Likeicon
+                  liked={post.likes.includes(userId)}
+                  count={post.likes.length}
+                />
                 {/* <span className="count">{post.likes.length} Likes</span> */}
               </div>
 

@@ -10,6 +10,7 @@ import {
 } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { NewChatApi } from "../../Api/ChatApi";
+import { AddFriendApi } from "../../Api/FriendsApi";
 const Friends = ({ userId, friends, friendrequests }) => {
   const startChat = async (friendId) => {
     try {
@@ -23,8 +24,13 @@ const Friends = ({ userId, friends, friendrequests }) => {
     }
   };
 
-   
-  
+   const acceptFriendReq = async (requestId)=>{
+    console.log('fiddd',requestId);
+    await AddFriendApi(userId, { requestId });
+   }
+  const deleteFriendReq =async (requestId)=>{
+    console.log('delete logic');
+  }
   return (
     <div className="friends-p">
       <div className="friends-c">
@@ -75,10 +81,10 @@ const Friends = ({ userId, friends, friendrequests }) => {
               </div>
               <div className="friend-icons">
                 <div className="friend-message">
-                  <AiOutlineUserAdd />
+                  <AiOutlineUserAdd  onClick={()=>acceptFriendReq(request._id)}/>
                 </div>
                 <div className="friend-remove">
-                  <AiOutlineDelete />
+                  <AiOutlineDelete onClick={()=>deleteFriendReq(request._id)}/>
                 </div>
               </div>
             </div>

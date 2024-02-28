@@ -69,50 +69,55 @@ exports.getAllUsers = async (req, res) => {
 };
 
 // socket io new friend request
-exports.newFriendRequest = async (data) => {
-  try {
-    const { userId, friendId } = data;
-    const user = await User.findById(friendId);
-    if (!user) {
-      return { success: false, message: "User not found" };
-    }
+// exports.newFriendRequest = async (data) => {
+//   try {
 
-    if (!user.friendrequest.includes(userId)) {
-      user.friendrequest.push(userId);
-      await user.save();
-      console.log("Request sent");
-      return { success: true, message: "Friend request sent" };
-    } else {
-      const index = user.friendrequest.indexOf(userId);
-      user.friendrequest.splice(index, 1);
-      await user.save();
-      console.log("Request removed");
-      return { success: true, message: "Friend request removed" };
-    }
-  } catch (error) {
-    console.error("Error adding/removing friend request:", error);
-    return { success: false, message: "Failed to add/remove friend request" };
-  }
-};
+//     const { userId, friendId } = data;
+//     console.log('userId in req',userId);
+//     console.log('friendId in req',friendId);
+
+//     const user = await User.findById(friendId);
+//     if (!user) {
+//       return { success: false, message: "User not found" };
+//     }
+
+//     if (!user.friendrequest.includes(userId)) {
+//       user.friendrequest.push(userId);
+//       await user.save();
+//       console.log("Request sent");
+//       return { success: true, message: "Friend request sent" };
+//     } else {
+//       const index = user.friendrequest.indexOf(userId);
+//       user.friendrequest.splice(index, 1);
+//       await user.save();
+//       console.log("Request removed");
+//       return { success: true, message: "Friend request removed" };
+//     }
+//   } catch (error) {
+//     console.error("Error adding/removing friend request:", error);
+//     return { success: false, message: "Failed to add/remove friend request" };
+//   }
+// };
 
 exports.friendReqestsId = async (req, res) => {
   try {
     
-    const friendreqId = req.query.friendreqId;
+    // const friendreqId = req.query.friendreqId;
+    const friendreqId = req.body.FriendId;
     console.log("user idddd", friendreqId);
     
     const userId = req.params.userId;
-    console.log("user idddd", userId);
-    const user = await User.findById(userId);
+    console.log("user fdidddd", userId);
+    const user = await User.findById(friendreqId);
     if (!user) {
       return res.status(404).json({ message: "user not found" });
     }
-    if (!user.friendrequest.includes(friendreqId)) {
-      user.friendrequest.push(friendreqId);
+    if (!user.friendrequest.includes(userId)) {
+      user.friendrequest.push(userId);
       user.save();
       console.log("request sent");
     } else {
-      const index = user.friendrequest.indexOf(friendreqId);
+      const index = user.friendrequest.indexOf(userId);
       user.friendrequest.splice(index, 1);
       await user.save();
       console.log("req removed");
@@ -125,7 +130,7 @@ exports.getUserById = async (req, res) => {
   let user;
   try {
     user = await User.findById(req.params.userId)
-      .select("firstname lastname friends posts friendrequest profilePic email")
+      .select("firstname lastname friends posts friendrequest profilePic headerImage email")
       .populate("friends", "firstname lastname")
       .populate("posts")
       .populate("friendrequest", "firstname lastname");
@@ -157,6 +162,7 @@ exports.deleteUser = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 };
+//search user
 exports.searchUsers = async (req, res) => {
   try {
     const searchText = req.params.searchText;
@@ -165,7 +171,8 @@ exports.searchUsers = async (req, res) => {
 
     const search = await User.find({
       $or: [{ firstname: searchRegex }, { lastname: searchRegex }],
-    });
+    }).select("firstname lastname profilePic friendrequest friends");
+    
     if (!search.length === 0) {
       return res.json({ message: "no users found" });
     }
@@ -191,31 +198,45 @@ exports.getFriends = async(req, res)=>{
 exports.newFriend = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const friendreqId = req.body.newFriendId;
-    console.log(userId);
-    console.log("frfwefuhgweaghfhgafhjhfA", friendreqId);
+    const friendreqId = req.body.requestId;
+    console.log("User ID:", userId);
+    console.log("Friend Request ID:", friendreqId);
+
     const user = await User.findById(userId);
-    const fuser = await User.findById(friendreqId)
+    const fuser = await User.findById(friendreqId);
+
     if (!user) {
+      console.log("User not found");
       return res.status(404).json({ message: "User not found" });
     }
+
     if (user.friends.includes(friendreqId)) {
+      console.log("User is already a friend");
       return res.status(400).json({ message: "User is already a friend" });
     }
+
     user.friends.push(friendreqId);
-    fuser.friends.push(userId)
-    // user.friendrequest = user.friendrequest.filter(
-    //   (request) => request.toString() !== friendreqId
-    // );
+    fuser.friends.push(userId);
 
     await user.save();
     await fuser.save();
+
+    try {
+      await User.findByIdAndUpdate(userId, { $pull: { friendrequest: friendreqId } });
+      console.log("Friend request removed successfully");
+    } catch (err) {
+      console.error("Error removing friend request:", err);
+      return res.status(500).json({ message: "Failed to remove friend request" });
+    }
+
+    console.log("Friend added successfully");
     res.json({ message: "Friend added successfully" });
   } catch (err) {
     console.error("Error adding new user:", err);
     return res.status(500).json({ message: err.message });
   }
 };
+
 // for forgot password
 
 exports.forgotPassword = async (req, res)=>{
@@ -279,7 +300,7 @@ exports.newPassword = async (req, res) => {
   }
 };
 
-
+//update profile info
 exports.updateProfileInfo = async (req, res) => {
   try {
     console.log('reqqqq updating data',req.body);
@@ -305,9 +326,12 @@ const storage = multer.diskStorage({
   destination:function(req, file, cb){
     cb(null,'../client/public/images/');
   },
-  filename:function(req, file, cb){
-    cb(null,file.originalname);
-  }
+  filename: function (req, file, cb) {
+    // Save the filename to a variable for later use
+    const filename = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+    // Pass the filename to the callback
+    cb(null, filename);
+  },
 });
 const upload = multer({
   storage: storage
@@ -333,7 +357,7 @@ exports.newProfilePic = async (req, res) => {
         return res.status(404).json({ message: 'User not found' });
       }
 
-      user.profilePic = req.file.originalname; 
+      user.profilePic = req.file.filename; 
       await user.save();
       console.log('upload image',req.params.userId);
       // Return success response
@@ -367,7 +391,7 @@ exports.newHeaderPic = async (req, res) => {
         return res.status(404).json({ message: 'User not found' });
       }
 
-      user.headerImage = req.file.originalname; 
+      user.headerImage = req.file.filename; 
       await user.save();
       console.log('upload image',req.params.userId);
       // Return success response
