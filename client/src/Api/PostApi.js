@@ -7,11 +7,11 @@ export const MakeNewPostData = async (id, newPostData) => {
     const newPost = await publicRequest.post(
       `post/${id}`,
       newPostData
-      // ,{
-      //     headers:{
-      //         'Content-Type':'multipart/form-data'
-      //     }
-      // }
+      ,{
+        headers:{
+          "Content-Type": "multipart/form-data"
+      },
+      }
     );
     console.log("new posssssss", newPost);
   } catch (err) {

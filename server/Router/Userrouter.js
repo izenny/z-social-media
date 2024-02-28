@@ -14,4 +14,6 @@ router.post('/resetpassword',userController.forgotPassword);
 router.post('/newpassword',userController.newPassword)
 router.put('/updateprofile/:userId',userController.updateProfileInfo)
 router.post('/newProfilePic/:userId',userController.newProfilePic)
+router.post('/newHeaderPic/:userId',userController.newProfilePic)
+
 module.exports = router;

@@ -1,69 +1,80 @@
 const Post = require("../Modals/Postschema");
 const User = require("../Modals/Userschema");
-
+const multer = require("multer");
+const path = require("path");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "../client/public/postimages/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({
+  storage: storage,
+}).single("image");
 exports.createPost = async (req, res) => {
-  console.log("working");
   try {
-    // Create a new Post
-    const { author, content } = req.body;
-    const newPost = new Post({ author, content });
+    upload(req, res, async (err) => {
+      if (err) {
+        return res.status(500).json({ message: "Failed to upload image" });
+      }
+      const { author, content } = req.body;
+      const newPost = new Post({ author, content });
+      if (req.file) {
+        newPost.image = req.file.originalname;
+      }
+      const savedPost = await newPost.save();
+      const user = await User.findById(author);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
 
-    // Store the image filename in the Images field
-    if (req.file) {
-      newPost.image = req.file.originalname;
-    }
+      user.posts.push(savedPost._id);
+      await user.save();
 
-    // Save the newPost to the database
-    const savedPost = await newPost.save();
-
-    // Update the User's posts array with the new Post's ObjectId
-    const user = await User.findById(author);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    user.posts.push(savedPost._id); // Add the new Post's ObjectId to the User's posts array
-    await user.save();
-
-    console.log("Posted");
-    res.status(201).json(savedPost);
+      console.log("Posted");
+      res.status(201).json(savedPost);
+    });
   } catch (err) {
     console.error("Error:", err);
     res.status(400).json({ message: err.message });
   }
 };
 
-// exports.createPost =  async (req, res) => {
+// exports.createPost = async (req, res) => {
+//   console.log("working");
+//   try {
+//     // Create a new Post
+//     const { author, content } = req.body;
+//     const newPost = new Post({ author, content });
 
-//     console.log('working')
+//     // Store the image filename in the Images field
+//     if (req.file) {
+//       newPost.image = req.file.originalname;
+//     }
 
-//     try {
-// Create a new Post
-// const { author, content } = req.body;
+//     // Save the newPost to the database
+//     const savedPost = await newPost.save();
 
-// const newPost = new Post({ author, content });
-// if(req.file){
-// newPost.image.data = req.file.buffer;
-// newPost.image.contentType= req.file.mimetype
-//   newPost.Images=req.file.originalname
-// }
-// const savedPost = await newPost.save();
-// res.status(201).json(savedPost);
+//     // Update the User's posts array with the new Post's ObjectId
+//     const user = await User.findById(author);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
 
-// const user = await User.findById(author);
-// if (!user) {
-//   return res.status(404).json({ message: 'User not found' });
-// }
-
-// user.posts.push(savedPost._id);
+//     user.posts.push(savedPost._id); // Add the new Post's ObjectId to the User's posts array
 //     await user.save();
-//     console.log('posted');
 
+//     console.log("Posted");
+//     res.status(201).json(savedPost);
 //   } catch (err) {
+//     console.error("Error:", err);
 //     res.status(400).json({ message: err.message });
-//     console.log('err',err);
 //   }
 // };
+
+
 //like fuction
 exports.LikePost = async (req, res) => {
   try {
@@ -121,32 +132,7 @@ exports.deletePost = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
-// posts by userid
-// exports.getPostsByUserId = async (req, res) => {
-//   try {
-//     const userId = req.params.userId;
-//     const posts = await Post.find({ author: userId })
-      // .populate("author", "firstname lastname")
-      // .lean();
 
-    // Extract image data from posts
-    // const postsWithImageData = await Promise.all(
-    //   posts.map(async (post) => {
-        // if (post.image && post.image.data) {
-        //   Convert Buffer to base64 string
-        //   const imageData = Buffer.from(post.image.data).toString("base64");
-        //   const imageSrc = `data:${post.image.contentType};base64,${imageData}`;
-        //   return { ...post, imageSrc }; 
-        // }
-    //     return post;
-    //   })
-    // );
-
-//     res.json(posts);
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// };
 exports.getPostsByUserId = async (req, res) => {
   try {
     const userId = req.params.userId;

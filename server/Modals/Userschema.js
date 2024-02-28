@@ -1,22 +1,3 @@
-// const mongoose = require("mongoose");
-
-// const UserSchema = new mongoose.Schema({
-//   firstname: { type: String, required: true },
-//   lastname: { type: String, required: true },
-//   email: { type: String, required: true, unique: true },
-//   dob: { type: Date },
-//   password: { type: String, required: true },
-//   friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-//   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
-//   friendrequest: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-//   notifications: [
-//     { type: mongoose.Schema.Types.ObjectId, ref: "Notification" },
-//   ],
-//   resetPasswordToken: String,
-//   resetPasswordExpires: Date,
-// });
-
-// module.exports = mongoose.model("User", UserSchema);
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
@@ -33,7 +14,8 @@ const UserSchema = new mongoose.Schema({
   ],
   resetPasswordToken: String,
   resetPasswordExpires: Date,
-  profilePic: String, // New field for storing the path of the profile picture
+  profilePic: String,
+  headerImage: String,
 });
 
 module.exports = mongoose.model("User", UserSchema);

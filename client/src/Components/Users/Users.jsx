@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "./Users.css";
 import { AiOutlineUserAdd, AiOutlineUserDelete } from "react-icons/ai";
+import io from "socket.io-client";
+const socket = io("http://localhost:5002");
 const Users = ({userId,searchResults}) => {
   const [added, setAdded] = useState(false);
 
-  const addFunction = () => {
-    setAdded(!added);
+  const addFunction = (FriendId) => {
+    socket.emit("addFriend",{userId,FriendId})
+    // setAdded(!added);
   };
   return (
     <div>

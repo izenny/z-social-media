@@ -68,11 +68,39 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
+// socket io new friend request
+exports.newFriendRequest = async (data) => {
+  try {
+    const { userId, friendId } = data;
+    const user = await User.findById(friendId);
+    if (!user) {
+      return { success: false, message: "User not found" };
+    }
+
+    if (!user.friendrequest.includes(userId)) {
+      user.friendrequest.push(userId);
+      await user.save();
+      console.log("Request sent");
+      return { success: true, message: "Friend request sent" };
+    } else {
+      const index = user.friendrequest.indexOf(userId);
+      user.friendrequest.splice(index, 1);
+      await user.save();
+      console.log("Request removed");
+      return { success: true, message: "Friend request removed" };
+    }
+  } catch (error) {
+    console.error("Error adding/removing friend request:", error);
+    return { success: false, message: "Failed to add/remove friend request" };
+  }
+};
 
 exports.friendReqestsId = async (req, res) => {
   try {
+    
     const friendreqId = req.query.friendreqId;
     console.log("user idddd", friendreqId);
+    
     const userId = req.params.userId;
     console.log("user idddd", userId);
     const user = await User.findById(userId);
@@ -285,6 +313,40 @@ const upload = multer({
   storage: storage
 }).single('image')
 exports.newProfilePic = async (req, res) => {
+ 
+  try {
+    
+    upload(req, res, async (err) => {
+      if (err) {
+        // Handle Multer error
+        return res.status(500).json({ message: 'Failed to upload image' });
+      }
+
+      // File uploaded successfully
+      if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded' });
+      }
+
+      // Update the user's profile picture in the database
+      const user = await User.findById(req.params.userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      user.profilePic = req.file.originalname; 
+      await user.save();
+      console.log('upload image',req.params.userId);
+      // Return success response
+      return res.status(200).json({ message: 'Profile picture updated successfully' });
+    });
+  } catch (err) {
+    // Handle other errors
+    console.error('err in upload image',err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+//header pic
+exports.newHeaderPic = async (req, res) => {
   console.log('upload image',req.params.userId);
   try {
     console.log('upload image',req.params.userId);
@@ -305,7 +367,7 @@ exports.newProfilePic = async (req, res) => {
         return res.status(404).json({ message: 'User not found' });
       }
 
-      user.profilePic = req.file.originalname; 
+      user.headerImage = req.file.originalname; 
       await user.save();
       console.log('upload image',req.params.userId);
       // Return success response

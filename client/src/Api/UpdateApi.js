@@ -25,3 +25,18 @@ export const uploadProfilePic = async (userId,file) => {
     return { success: false, error: "Failed to upload image" };
   }
 };
+export const uploadHeaderPic = async (userId,file) => {
+  try {
+    const formData = new FormData();
+    formData.append("image", file);
+    await publicRequest.post(`users/newHeaderPic/${userId}`,formData,{
+        headers:{
+            "Content-Type": "multipart/form-data"
+        },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    return { success: false, error: "Failed to upload image" };
+  }
+};

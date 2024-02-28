@@ -10,7 +10,7 @@ const postRoutes = require("./Router/Postrouter");
 const notificationRoutes = require("./Router/Notificationrouter");
 const chatRoutes = require("./Router/Chatrouter");
 const ChatController = require('./Controllers/Chatcontroller')
-
+const UserController = require("./Controllers/Usercontroller")
 dotenv.config();
 
 const app = express();
@@ -49,6 +49,8 @@ io.on("connection", (socket) => {
   })
   socket.on('addFriend', (data)=>{
     console.log('friend req',data);
+    UserController.newFriendRequest(data)
+    
   })
   
 
